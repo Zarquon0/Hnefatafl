@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block head %}
+    <link href="/static/game.css" rel="stylesheet"/>
+    <script>
+        const data = JSON.parse('{{ game_data|tojson }}');
+    </script>
+    <script src="/static/game.js" defer></script>
+{% endblock %}
+{% block body %}
+    <header>
+        <div id="spacer"></div>
+        <div id="title">
+            <h1>Hnefatafl</h1>
+        </div>
+        <a href="{{ url_for('home') }}"><img src="/static/media/logo_black.png"/></a>
+    </header>
+    <aside>
+        <div id="name_cont">
+            {% if game.king != None %}
+                <h3 class="invader">{{ game.players[game.king - 1].username }}</h3>
+                <em>vs</em>
+                <h3 class="defender">{{ game.players[game.king].username }}</h3>
+            {% else %}
+                <h3 class="invader no_side">{{ game.players[0].username }}</h3>
+                <em>vs</em>
+                <h3 class="defender no_side">{{ game.players[1].username }}</h3>
+            {% endif %}
+        </div>
+        {% if game.players[game.turn] == user %}
+            <h3 id="turn_indicator" class="defender">YOUR TURN</h3>
+        {% else %}
+            <h3 id="turn_indicator" class="invader">THEIR TURN</h3>
+        {% endif %}
+        <div id="controls">
+            <img src="/static/media/sfx_on.png"/>
+            <div class="toggle_wrapper">
+                <h4>Board Size</h4>
+                <div id="size_toggle" class="toggle">
+                    <div class="slider"></div>
+                </div>
+            </div>
+            <div class="toggle_wrapper">
+                <h4>Auto Refresh</h4>
+                <div id="refresh_toggle" class="toggle">
+                    <div id="refresh_slider" class="slider">Off</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <main>
+        {% if game.king != None %}
+            <div id="game_board" class="start_hidden">
+                {% for pair in board %}
+                    <div id="{{ pair[0] }}" class="{{ pair[1][0] }}">{% if pair[1][1] %}<div class="{{ pair[1][1] }}"></div>{% endif %}</div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div id="team_select">
+                {% if game.players[game.turn] == user %}
+                    <h2>Choose a Side:</h2>
+                    <div id="select_cont">
+                        <a class="invader" href="{{ url_for('game', gid=game.id, selection='invaders') }}">Invaders</a>
+                        <a class="defender" href="{{ url_for('game', gid=game.id, selection='defenders') }}">Defenders</a>
+                    </div>
+                {% else %}
+                    <h2>Waiting for {{ game.players[game.turn].username }} to pick a side...</h2>
+                {% endif %}
+            </div>
+        {% endif %}
+    </main>
+    <audio src="/static/audio/Capture.m4a"></audio>
+    <audio src="/static/audio/Click.m4a"></audio>
+    <audio src="/static/audio/Move.m4a"></audio>
+    <audio src="/static/audio/Loser.m4a"></audio>
+    <audio src="/static/audio/Winner.m4a"></audio>
+    <script>
+        const toggleSize = () => {
+            $('#size_toggle').toggleClass('slid');
+            ($('#game_board') || $('#team_select')).toggleClass('big_board');
+        }
+        let sizePref = window.localStorage.getItem('size');
+        if (sizePref == 'big') {toggleSize();}
+
+        const toggleRefresh = () => {
+            $('#refresh_toggle').toggleClass('slid');
+            document.getElementById('refresh_slider').innerHTML = (document.getElementById('refresh_slider').innerHTML == 'Off' ? 'On' : 'Off');
+        }
+        let refreshPref = window.localStorage.getItem('no_refresh');
+        if (!(refreshPref == 'true')) {toggleRefresh();}
+        
+        const toggleSFX = () => {
+            let sfxEl = document.querySelector('#controls img');
+            sfxEl.src = `/static/media/sfx_${(sfxEl.src.includes('on') ? 'off' : 'on')}.png`;
+
+        }
+        let sfxPref = window.localStorage.getItem('sfx')
+        if (sfxPref == 'off') {toggleSFX();}
+    </script>
+{% endblock %}

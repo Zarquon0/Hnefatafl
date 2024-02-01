@@ -1,0 +1,12 @@
+:root {
+    --text: #3D3B40;
+    --background: rgb(247, 247, 247);
+    --fill: rgb(199, 199, 199);
+    --border: #87CEEB;
+    --dark-border: #31b3e6;
+    --spec-text: rgb(219, 136, 136);
+    --dark-spec-text: rgb(213, 91, 91);
+    --spec-fill: rgb(248, 227, 113);
+    --spec-border: rgb(227, 197, 29);
+    --icon-dim: 94.5px;
+}

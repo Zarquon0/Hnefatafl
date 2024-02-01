@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block head %}
+<link href="/static/register-login.css" rel="stylesheet"/>
+{% endblock %}
+{% block body %}
+<header>
+    <h1>Hnefatafl</h1>
+</header>
+<form method="POST">
+    {{ lform.hidden_tag() }}
+    <h2>Login</h2>
+    <div id="form_content">
+        <div class="ipt_cont">
+            {{ lform.username.label }}:
+            {{ lform.username() }}
+        </div>
+        <div class="ipt_cont">
+            {{ lform.password.label }}:
+            {{ lform.password(placeholder='(blank if no password)') }}
+        </div>
+        {{ lform.submit() }}
+        <a href="{{ url_for('register') }}">Register</a>
+    </div>
+</form>
+{% endblock %}

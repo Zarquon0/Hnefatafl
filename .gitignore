@@ -1,0 +1,10 @@
+__pycache__/
+bin/
+games/
+include/
+lib/
+log.txt
+hnefatafl_storage.db
+pyvenv.config
+test_models.py
+test.csv

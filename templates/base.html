@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Online Hnefatafl</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Overlock+SC&family=Ubuntu+Mono&family=Josefin+Sans&display=swap" rel="stylesheet">
+        <link href="/static/base.css" rel="stylesheet"/>
+        <script src="https://code.jquery.com/jquery-3.6.2.js" integrity="sha256-pkn2CUZmheSeyssYw3vMp1+xyub4m+e+QK4sQskvuo4=" crossorigin="anonymous"></script>
+        <script src="/static/base.js" defer></script>
+        <script>
+            const flashed_msgs = JSON.parse('{{ get_flashed_messages()|tojson }}');
+        </script>
+        {% block head %} {% endblock %}
+    </head>
+    <body>
+        {% block body %} {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block head %}
+<link href="/static/register-login.css" rel="stylesheet"/>
+<script src="/static/register.js" defer></script>
+{% endblock %}
+{% block body %}
+<header>
+    <h1>Hnefatafl</h1>
+</header>
+<form method="POST">
+    {{ rform.hidden_tag() }}
+    <h2>Register</h2>
+    <div id="form_content">
+        <div class="ipt_cont">
+            {{ rform.username.label }}:
+            {{ rform.username() }}
+        </div>
+        <div class="ipt_cont">
+            {{ rform.password.label }}:
+            {{ rform.password(placeholder="(optional)") }}
+        </div>
+        <div class="ipt_cont" style="display: none;">
+            {{ rform.password2.label }}:
+            {{ rform.password2() }}
+        </div>
+        {{ rform.remember.label }}
+        {{ rform.remember() }}
+        {{ rform.submit() }}
+        <a href="{{ url_for('login') }}">Login</a>
+    </div>
+</form>
+{% endblock %}

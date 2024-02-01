@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block head %}
+<link href="/static/home.css" rel="stylesheet"/>
+<script src="/static/home.js" defer></script>
+{% endblock %}
+{% block body %}
+<aside>
+    <h2>Games:</h2>
+    <div id="game_cont">
+        {% for game in user.current_games %}
+            <a href="{{url_for('game', gid=game.id)}}" class="game_box">
+                <div class="game_card">
+                    {% for player in game.players %}
+                        {% if player != user %}
+                            <h3><em>Vs&nbsp;</em><span>{{ player.username }}</span></h3>
+                        {% endif %}
+                    {% endfor %}
+                    <h3>
+                        <em>As</em>
+                        {% if game.players[game.king] == user %} Defenders {% else %} Invaders {% endif %}
+                    </h3>
+                </div>
+                {% if game.finished %}
+                    <div class="turn_indicator over"><h3>GAME<br/>OVER</h3></div>
+                {% elif game.players[game.turn] ==  user %}
+                    <div class="turn_indicator yours"><h3>YOUR<br/>TURN</h3></div>
+                {% else %}
+                    <div class="turn_indicator theirs"><h3>THEIR<br/>TURN</h3></div>
+                {% endif %}
+            </a>
+        {% endfor %}
+        <a href="{{ url_for('new_game',user1=user.id,rand='true') }}" class="game_box" id="final_box">
+            {% if not user.current_games %}
+                <h3>You don't have any games yet! Find one:</h3>
+            {% else %}
+                <h3>Find a new game:</h3>
+            {% endif %}
+            <div class="button">New Game</div>
+        </a>
+    </div>
+</aside>
+<main>
+    <header>
+        <div id="spacer"></div>
+        <div id="title">
+            <h1>Hnefatafl</h1>
+        </div>
+        <a href="{{ url_for('home') }}"><img src="/static/media/logo_black.png"/></a>
+    </header>
+    <div id="sound">Unmute</div>
+    <div id="content_container">
+        <section id="player_stats">
+            <h2>&nbsp;Player:&nbsp;<span>{{ user.username }}</span></h2>
+            <div class="left">
+                <h1>{{ user.games_won }}</h1>
+                <h3>Games Won</h3>
+            </div>
+            <div class="right">
+                <h1>{{ user.games_played }}</h1>
+                <h3>Games Played</h3>
+            </div>
+        </section>
+        <section id="friends">
+            <h2>&nbsp;Friends:&nbsp;</h2>
+            <div id="friend_card_cont">
+                {% for friend in user.friends %}
+                    <div class="friend_card">
+                        <h3>{{ friend.user.username }}</h3>
+                        <a href="{{url_for('new_game',user1=user.id,user2=friend.user.id)}}" class="button challenge">Challenge</a>
+                    </div>
+                {% endfor %}
+                <div class="friend_card" id="new_friend">
+                    {% if not user.friends %}
+                        <h3>&nbsp;No friends yet... Let's make one!</h3>
+                    {% else %}
+                        <h3>&nbsp;Add another friend!</h3>
+                    {% endif %}
+                    <form method="POST">
+                        {{ fform.hidden_tag() }}
+                        {{ fform.friend_username.label }}
+                        {{ fform.friend_username() }}
+                        {{ fform.submit() }}
+                    </form>
+                </div>  
+            </div>
+        </section>
+    </div>
+</main>
+<audio src="/static/audio/Hnefatafl_Blues.m4a" loop>
+    <a href="/static/audio/Hnefatafl_Blues.m4a"> Download audio </a>
+</audio>
+{% endblock %}

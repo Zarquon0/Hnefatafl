@@ -1,0 +1,66 @@
+@import 'master.css';
+
+header {
+    height: 105px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header h1 {
+    height: 90%;
+    width: 45%;
+    font-family: 'Overlock SC';
+    font-size: 70px;
+    font-weight: 800;
+    border-bottom: 5px solid var(--border);
+    text-align: center;
+}
+
+form {
+    width: clamp(400px, 50%, 600px);
+    margin: 5vh auto 0;
+    padding: 20px 0;
+    border: 5px solid var(--spec-text);
+    border-radius: 20px;
+}
+
+form h2 {
+    text-align: center;
+    font-size: 50px;
+}
+
+#form_content {
+    margin: 0 auto;
+    width: 300px;
+}
+
+.ipt_cont {
+    width: 100%;
+    font-size: 25px;
+    margin: 15px 0;
+}
+
+.ipt_cont input[type='text'], .ipt_cont input[type='password'] {
+    font-size: 25px;
+    width: 100%;
+}
+
+input[type='submit'] {
+    display: block;
+    width: 100%;
+    font-size: 25px;
+    background-color: var(--spec-fill);
+    border: 3px solid var(--spec-border);
+} 
+
+a {
+    margin: 15px auto 0;
+    width: fit-content;
+    display: block;
+    color: var(--dark-border);
+}
+
+a:hover {
+    color: var(--border);
+}
